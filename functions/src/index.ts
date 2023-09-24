@@ -11,13 +11,18 @@
 import {setGlobalOptions} from "firebase-functions/v2/options";
 setGlobalOptions({maxInstances: 10});
 
-import {onRequest} from "firebase-functions/v2/https";
-import * as logger from "firebase-functions/logger";
-
+import * as express from "express";
+import {Request, Response} from "express";
+import * as functions from "firebase-functions";
 // Start writing functions
 // https://firebase.google.com/docs/functions/typescript
 
-export const helloWorld = onRequest((request, response) => {
-  logger.info("Hello logs!", {structuredData: true});
-  response.send("Hello from Firebase!");
+const app = express();
+
+app.get("*", (req: Request, res: Response) => {
+  res.send("Hey there!").status(200);
 });
+
+// creates a function called app on the firebase functions console accessible as /app
+exports.app = functions.https.onRequest(app);
+
