@@ -16,7 +16,7 @@ import * as express from "express";
 import cors = require("cors");
 
 import {Request, Response} from "express";
-import {addEntry} from "./controllers/entryController";
+import {addEntry, getAllEntries} from "./controllers/entryController";
 // Start writing functions
 // https://firebase.google.com/docs/functions/typescript
 
@@ -38,6 +38,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.post("/add-entries", addEntry);
+app.get("/entries", getAllEntries);
 // creates a function called app on the firebase
 // functions console accessible as /app
 exports.app = onRequest(app);
