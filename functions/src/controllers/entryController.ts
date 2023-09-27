@@ -31,14 +31,37 @@ const addEntry = async (req: Request, res: Response) => {
 };
 
 
-const getAllEntries = async(req: Request, res: Response) => {
+const getAllEntries = async (req: Request, res: Response) => {
   try {
     const allEntries = await db.collection("entries").get();
     return res.status(200).json(allEntries.docs);
   } catch (error) {
     return res.status(500).json("Fatal error occured retrieving entries");
   }
-}
+};
 
+const updateEntry = async (req: Request, res: Response) => {
+  const { body: {text, title}, params: {entryId}} = req;
+  try {
+    const existingEntry = db.collection("entries").doc(entryId);
+    const currentData = (await existingEntry.get()).data() || {};
 
-export {addEntry, getAllEntries};
+    const entryObj = {
+      title: title || currentData.title,
+      text: text || currentData.text,
+    };
+
+    await existingEntry.set(entryObj)
+    .catch((err)=> {
+      return res.status(400).json({
+        status: "error", 
+        message: err?.message
+      });
+    });
+  } catch (error) {
+    res.status(500).json("Fatal error occured when updating");
+  }
+  
+};
+
+export {addEntry, getAllEntries, updateEntry};
