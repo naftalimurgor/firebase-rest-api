@@ -13,12 +13,25 @@ import {onRequest} from "firebase-functions/v1/https";
 setGlobalOptions({maxInstances: 10});
 
 import * as express from "express";
+import cors = require("cors");
+
 import {Request, Response} from "express";
 import {addEntry} from "./controllers/entryController";
 // Start writing functions
 // https://firebase.google.com/docs/functions/typescript
 
 const app = express();
+
+// enable consuming of JSON in the request body:
+app.use(express.json());
+
+// enable cors:
+// const corsConfig = {
+//   origin: '', // state origin to only accept requests from
+//   optionsSuccess: 200
+// }
+
+app.use(cors());
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hey there!").status(200);
