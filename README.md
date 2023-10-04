@@ -6,7 +6,7 @@
 
 https://console.firebase.google.com/u/2/project/<project_name>/settings/serviceaccounts/adminsdk?consoleUI=FIREBASE
 
-## Setting the environemtn secrest from the console
+## Setting the environment secrets from the console
 
 2. Run: firebase functions:config:set private.key="YOUR API KEY" project.id="YOUR CLIENT ID" client.email="YOUR CLIENT EMAIL" where `id` and `email` are the environment secrets to use.
 
